@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class DataItem {
   final String title;
@@ -25,9 +26,26 @@ class _DataListState extends State<DataList> {
   late TextEditingController searchController;
 
   List<DataItem> data = [
-    DataItem(title: "Title 1", description: "Description for title 1."),
-    DataItem(title: "Title 2", description: "Description for title 2."),
-    DataItem(title: "Title 3", description: "Short description."),
+    DataItem(
+        title: "Title 1",
+        description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident."),
+    DataItem(
+        title: "Title 2",
+        description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."),
+    DataItem(
+        title: "Title 3",
+        description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+    DataItem(
+        title: "Title 4",
+        description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+    DataItem(
+        title: "Title 5",
+        description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."),
   ];
   List<DataItem> searchedData = [];
 
@@ -110,6 +128,7 @@ class _DataListState extends State<DataList> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               item.title,
@@ -119,9 +138,7 @@ class _DataListState extends State<DataList> {
               ),
             ),
             const SizedBox(height: 4),
-            Expanded(
-              child: Text(item.description),
-            ),
+            Text(item.description),
           ],
         ),
       ),
@@ -131,64 +148,94 @@ class _DataListState extends State<DataList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text(
-      //     "Notes",
-      //     style: TextStyle(color: Colors.white, fontSize: 30),
-      //   ),
-      //   backgroundColor: Color.fromRGBO(140, 92, 179, 1),
-      //   centerTitle: true,
-      // ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Column(
-            children: [
-              Text(
-                "Notes",
-                style: TextStyle(color: Colors.white, fontSize: 30),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: TextField(
+          onChanged: (String value) {
+            searchCards(value);
+          },
+          controller: searchController,
+          decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(30),
               ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: TextField(
-                  onChanged: (String value) {
-                    searchCards(value);
-                  },
-                  controller: searchController,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    hintText: "Search",
-                  ),
+              hintText: "Search",
+              prefixIcon: Builder(builder: (BuildContext context) {
+                return IconButton(
+                    onPressed: Scaffold.of(context).openDrawer,
+                    icon: Icon(Icons.menu));
+              })),
+        ),
+        backgroundColor: Color.fromRGBO(140, 92, 179, 1),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            ListTile(
+              title: const Text(
+                'Notes App',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
                 ),
               ),
+            ),
+            ListTile(
+              leading: Icon(Icons.lightbulb),
+              title: Text('My Notes'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: Icon(Icons.archive),
+              title: Text('Archive'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: Icon(Icons.delete),
+              title: Text('Trash'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: Icon(Icons.help),
+              title: Text('Help & feedback'),
+              onTap: () {},
+            ),
+          ],
+        ),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+          child: Column(
+            children: [
               Expanded(
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
+                child: MasonryGridView.builder(
+                  gridDelegate:
+                      const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
                   ),
-                  itemCount: (searchedData.isNotEmpty)
+                  itemCount: searchedData.isNotEmpty
                       ? searchedData.length
                       : data.length,
                   itemBuilder: (context, index) {
-                    final item = (searchedData.isNotEmpty)
-                        ? searchedData[index]
-                        : data[index];
+                    final currentList =
+                        searchedData.isNotEmpty ? searchedData : data;
+                    final item = currentList[index];
                     return buildCard(item);
                   },
                 ),
               ),
-              ElevatedButton(
-                onPressed: showDialogBox,
-                child: const Text("Add Item"),
-              ),
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: showDialogBox,
+        tooltip: "Add note",
+        child: Icon(Icons.add),
       ),
     );
   }
