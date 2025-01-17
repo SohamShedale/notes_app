@@ -1,4 +1,4 @@
-import 'package:authentication/signup_page.dart';
+import 'package:authentication/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
