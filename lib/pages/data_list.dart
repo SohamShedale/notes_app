@@ -1,21 +1,9 @@
-import 'package:authentication/constants/data.dart';
+import 'package:authentication/services/database_service.dart';
 import 'package:authentication/utils/search_cards.dart';
 import 'package:authentication/utils/show_dialog_box.dart';
-import 'package:authentication/widgets/build_card.dart';
 import 'package:flutter/material.dart';
+import 'package:authentication/widgets/build_card.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
-class DataItem {
-  final String title;
-  final String description;
-
-  DataItem({required this.title, required this.description});
-
-  @override
-  String toString() {
-    return 'DataItem{title: $title, description: $description}';
-  }
-}
 
 class DataList extends StatefulWidget {
   const DataList({super.key});
@@ -25,13 +13,12 @@ class DataList extends StatefulWidget {
 }
 
 class _DataListState extends State<DataList> {
+  final DatabaseService _databaseService = DatabaseService.instance;
   late TextEditingController titleController;
   late TextEditingController descriptionController;
   late TextEditingController searchController;
-  List<DataItem> data = [
-    ...dataItem,
-  ];
-  List<DataItem> searchedData = [];
+  List<Map<String, dynamic>>? data;
+  dynamic searchedData = [];
 
   @override
   void initState() {
@@ -39,21 +26,51 @@ class _DataListState extends State<DataList> {
     titleController = TextEditingController();
     descriptionController = TextEditingController();
     searchController = TextEditingController();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    try {
+      final loadedData = await _databaseService.getNotes();
+      setState(() {
+        data = loadedData;
+      });
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    data = [
-      ...dataItem,
-    ];
+    _loadData();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: TextField(
-          onChanged: (String value) {
-            setState(() {
-              searchedData = searchCards(value);
-            });
+          onChanged: (String value) async {
+            if (value.isEmpty) {
+              setState(() {
+                searchedData = [];
+              });
+            }
+            try {
+              final result = await searchCards(data, value);
+              if (result.isEmpty) {
+                setState(() {
+                  searchedData = "Match not found";
+                });
+              } else {
+                setState(() {
+                  searchedData = result;
+                  print(searchedData);
+                });
+              }
+            } catch (e) {
+              print(e.toString());
+              setState(() {
+                searchedData = [];
+              });
+            }
           },
           controller: searchController,
           decoration: InputDecoration(
@@ -66,8 +83,9 @@ class _DataListState extends State<DataList> {
             hintText: "Search",
             prefixIcon: Builder(builder: (BuildContext context) {
               return IconButton(
-                  onPressed: Scaffold.of(context).openDrawer,
-                  icon: Icon(Icons.menu));
+                onPressed: Scaffold.of(context).openDrawer,
+                icon: Icon(Icons.menu),
+              );
             }),
           ),
         ),
@@ -109,30 +127,55 @@ class _DataListState extends State<DataList> {
         ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
-          child: Column(
-            children: [
-              Expanded(
-                child: MasonryGridView.builder(
-                  gridDelegate:
-                      const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                  ),
-                  itemCount: searchedData.isNotEmpty
-                      ? searchedData.length
-                      : data.length,
-                  itemBuilder: (context, index) {
-                    final currentList =
-                        searchedData.isNotEmpty ? searchedData : data;
-                    final item = currentList[index];
-                    return BuildCard(item: item);
-                  },
-                ),
+        child: data != null
+            ? (data!.isNotEmpty)
+                ? (searchedData is String)
+                    ? Center(
+                        child: Text(
+                          searchedData,
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: MasonryGridView.builder(
+                                gridDelegate:
+                                    const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                ),
+                                itemCount: (searchedData.isNotEmpty)
+                                    ? searchedData.length
+                                    : (data != null)
+                                        ? data!.length
+                                        : 0,
+                                itemBuilder: (context, index) {
+                                  final toDisplayItems =
+                                      (searchedData.isNotEmpty)
+                                          ? searchedData
+                                          : data;
+                                  final item = toDisplayItems![index];
+                                  return BuildCard(item: item);
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                : Center(
+                    child: Text(
+                      "No notes yet",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                  )
+            : Center(
+                child: CircularProgressIndicator(),
               ),
-            ],
-          ),
-        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
