@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:authentication/utils/store_data.dart';
+import 'package:authentication/utils/store_user_data.dart';
 import 'package:authentication/pages/login_page.dart';
 
 class BuildSignupButton extends StatelessWidget {
@@ -15,7 +15,7 @@ class BuildSignupButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () async {
         try {
-          await StoreData.storeData(
+          await storeUserData(
               userName: userName.text,
               userEmail: userEmail.text,
               userPassword: userPassword.text);

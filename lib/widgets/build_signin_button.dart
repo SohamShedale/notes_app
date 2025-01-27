@@ -1,7 +1,6 @@
 import 'package:authentication/pages/data_list.dart';
 import 'package:authentication/pages/login_page.dart';
 import 'package:authentication/utils/find_user.dart';
-import 'package:authentication/utils/load_user.dart';
 import 'package:flutter/material.dart';
 
 class BuildSigninButton extends StatelessWidget {
@@ -15,8 +14,7 @@ class BuildSigninButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
-        List<Map<String, dynamic>> users = await LoadUser.loadUser();
-        bool success = await FindUser.findUser(users,
+        bool success = await findUser(
             emailController: emailController,
             passwordController: passwordController);
         if (success) {
