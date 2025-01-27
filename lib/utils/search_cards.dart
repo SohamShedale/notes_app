@@ -1,14 +1,16 @@
-import 'package:authentication/constants/data.dart';
-import 'package:authentication/pages/data_list.dart';
-
-List<DataItem> searchCards(String value) {
-  List<DataItem> searchedData = [];
+Future<List<Map<String, dynamic>>> searchCards(
+    List<Map<String, dynamic>>? data, String value) async {
+  List<Map<String, dynamic>> searchedData = [];
   if (value.isEmpty) {
+    return data!;
+  }
+  searchedData = data!
+      .where((singleData) =>
+          singleData["title"].toLowerCase().contains(value.toLowerCase()) ||
+          singleData["description"].toLowerCase().contains(value.toLowerCase()))
+      .toList();
+  if (searchedData.isNotEmpty) {
     return searchedData;
   }
-  return searchedData = dataItem
-      .where((singleData) =>
-          singleData.title.toLowerCase().contains(value.toLowerCase()) ||
-          singleData.description.toLowerCase().contains(value.toLowerCase()))
-      .toList();
+  return [];
 }
