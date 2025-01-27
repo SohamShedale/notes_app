@@ -1,10 +1,10 @@
-import 'package:authentication/constants/data.dart';
-import 'package:authentication/pages/data_list.dart';
+import 'package:authentication/services/database_service.dart';
 import 'package:flutter/material.dart';
 
 Future<bool> showDialogBox(
     context, titleController, descriptionController) async {
   bool itemAdded = false;
+  final DatabaseService databaseService = DatabaseService.instance;
   await showDialog(
     context: context,
     builder: (BuildContext context) => AlertDialog(
@@ -36,10 +36,10 @@ Future<bool> showDialogBox(
         ),
         TextButton(
           onPressed: () {
-            dataItem.add(DataItem(
+            databaseService.addNote(
               title: titleController.text,
               description: descriptionController.text,
-            ));
+            );
             itemAdded = true;
             Navigator.pop(context);
           },
