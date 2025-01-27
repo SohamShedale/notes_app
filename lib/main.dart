@@ -1,4 +1,5 @@
-import 'package:authentication/pages/signup_page.dart';
+import 'package:authentication/pages/data_list.dart';
+// import 'package:authentication/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +15,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme:
           ThemeData(scaffoldBackgroundColor: Color.fromRGBO(140, 92, 179, 1)),
-      home: SignupPage(),
+      home: DataList(),
+      // home: SignupPage(),
     );
   }
 }
