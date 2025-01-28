@@ -19,6 +19,19 @@ class _DataListState extends State<DataList> {
   late TextEditingController searchController;
   List<Map<String, dynamic>>? data;
   dynamic searchedData = [];
+  final List<int> colors = [
+    0xff88D8B0,
+    0xffFFD166,
+    0xff4ECDC4,
+    0xffBCAAA4,
+    0xffFF6B6B,
+    0xffFF9AA2,
+    0xffD3D3D3,
+    0xff77DD77,
+    0xffB39EB5,
+    0xffFF6F61,
+    0xffD4A5A5,
+  ];
 
   @override
   void initState() {
@@ -46,6 +59,7 @@ class _DataListState extends State<DataList> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        backgroundColor: Color(0xff202124),
         title: TextField(
           onChanged: (String value) async {
             if (value.isEmpty) {
@@ -55,16 +69,11 @@ class _DataListState extends State<DataList> {
             }
             try {
               final result = await searchCards(data, value);
-              if (result.isEmpty) {
-                setState(() {
-                  searchedData = "Match not found";
-                });
-              } else {
-                setState(() {
-                  searchedData = result;
-                  print(searchedData);
-                });
-              }
+              setState(() {
+                (result.isEmpty)
+                    ? searchedData = "Match not found"
+                    : searchedData = result;
+              });
             } catch (e) {
               print(e.toString());
               setState(() {
@@ -72,26 +81,34 @@ class _DataListState extends State<DataList> {
               });
             }
           },
+          cursorColor: Colors.white,
           controller: searchController,
+          style: TextStyle(
+            color: Colors.white,
+          ),
           decoration: InputDecoration(
             filled: true,
-            fillColor: Colors.white,
+            fillColor: Color(0xff525355),
             border: OutlineInputBorder(
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.circular(30),
             ),
             hintText: "Search",
+            hintStyle: TextStyle(color: Colors.white),
             prefixIcon: Builder(builder: (BuildContext context) {
               return IconButton(
                 onPressed: Scaffold.of(context).openDrawer,
-                icon: Icon(Icons.menu),
+                icon: Icon(
+                  Icons.menu,
+                  color: Colors.white,
+                ),
               );
             }),
           ),
         ),
-        backgroundColor: Color.fromRGBO(140, 92, 179, 1),
       ),
       drawer: Drawer(
+        backgroundColor: Color(0xff202124),
         child: ListView(
           children: [
             ListTile(
@@ -99,28 +116,61 @@ class _DataListState extends State<DataList> {
                 'Notes App',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
+                  color: Color(0xffFFD166),
                   fontSize: 30,
                 ),
               ),
             ),
             ListTile(
-              leading: Icon(Icons.lightbulb),
-              title: Text('My Notes'),
+              leading: Icon(
+                Icons.lightbulb,
+                color: Colors.white,
+              ),
+              title: Text(
+                'My Notes',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
               onTap: () {},
             ),
             ListTile(
-              leading: Icon(Icons.archive),
-              title: Text('Archive'),
+              leading: Icon(
+                Icons.archive,
+                color: Colors.white,
+              ),
+              title: Text(
+                'Archive',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
               onTap: () {},
             ),
             ListTile(
-              leading: Icon(Icons.delete),
-              title: Text('Trash'),
+              leading: Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+              title: Text(
+                'Trash',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
               onTap: () {},
             ),
             ListTile(
-              leading: Icon(Icons.help),
-              title: Text('Help & feedback'),
+              leading: Icon(
+                Icons.help,
+                color: Colors.white,
+              ),
+              title: Text(
+                'Help & feedback',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
               onTap: () {},
             ),
           ],
@@ -148,16 +198,18 @@ class _DataListState extends State<DataList> {
                                 ),
                                 itemCount: (searchedData.isNotEmpty)
                                     ? searchedData.length
-                                    : (data != null)
-                                        ? data!.length
-                                        : 0,
+                                    : data!.length,
                                 itemBuilder: (context, index) {
                                   final toDisplayItems =
                                       (searchedData.isNotEmpty)
                                           ? searchedData
                                           : data;
                                   final item = toDisplayItems![index];
-                                  return BuildCard(item: item);
+                                  final color = colors[index % colors.length];
+                                  return BuildCard(
+                                    item: item,
+                                    color: color,
+                                  );
                                 },
                               ),
                             ),

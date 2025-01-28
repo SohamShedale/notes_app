@@ -13,8 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme:
-          ThemeData(scaffoldBackgroundColor: Color.fromRGBO(140, 92, 179, 1)),
+      theme: ThemeData(scaffoldBackgroundColor: Color(0xff202124)),
       home: DataList(),
       // home: SignupPage(),
     );

@@ -34,12 +34,12 @@ class BuildSignupButton extends StatelessWidget {
         }
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xffcdeff1),
       ),
       child: Text(
         "Create Account",
         style: TextStyle(
-          color: Colors.white,
+          color: Colors.black,
         ),
       ),
     );

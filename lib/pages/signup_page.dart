@@ -38,7 +38,7 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(140, 92, 179, 1),
+        backgroundColor: Color(0xff202124),
         title: BuildAppbarTitle(title: "Signup"),
         centerTitle: true,
       ),
@@ -80,7 +80,7 @@ class _SignupPageState extends State<SignupPage> {
                 child: Text(
                   "Login",
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Color(0xffffffa0),
                     fontWeight: FontWeight.w900,
                     fontSize: 15,
                   ),

@@ -30,12 +30,12 @@ class BuildSigninButton extends StatelessWidget {
         }
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xffcdeff1),
       ),
       child: Text(
         "Login",
         style: TextStyle(
-          color: Colors.white,
+          color: Colors.black,
         ),
       ),
     );

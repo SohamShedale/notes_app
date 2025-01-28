@@ -11,7 +11,7 @@ class BuildAppbarTitle extends StatelessWidget {
       style: TextStyle(
         fontSize: 35,
         fontWeight: FontWeight.bold,
-        color: Colors.white,
+        color: Color(0xfffca590),
       ),
     );
   }
