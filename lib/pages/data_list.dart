@@ -2,6 +2,7 @@ import 'package:authentication/services/database_service.dart';
 import 'package:authentication/utils/search_cards.dart';
 import 'package:authentication/utils/show_dialog_box.dart';
 import 'package:authentication/widgets/build_drawer.dart';
+import 'package:authentication/widgets/build_text.dart';
 import 'package:flutter/material.dart';
 import 'package:authentication/widgets/build_card.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -114,10 +115,7 @@ class _DataListState extends State<DataList> {
             ? (data!.isNotEmpty)
                 ? (searchedData is String)
                     ? Center(
-                        child: Text(
-                          searchedData,
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
+                        child: BuildText(text: searchedData)
                       )
                     : Padding(
                         padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
@@ -150,13 +148,7 @@ class _DataListState extends State<DataList> {
                         ),
                       )
                 : Center(
-                    child: Text(
-                      "No notes yet",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                    ),
+                    child: BuildText(text: "No notes yet")
                   )
             : Center(
                 child: CircularProgressIndicator(),
