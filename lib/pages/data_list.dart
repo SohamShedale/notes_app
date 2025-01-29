@@ -114,9 +114,7 @@ class _DataListState extends State<DataList> {
         child: data != null
             ? (data!.isNotEmpty)
                 ? (searchedData is String)
-                    ? Center(
-                        child: BuildText(text: searchedData)
-                      )
+                    ? Center(child: BuildText(text: searchedData))
                     : Padding(
                         padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
                         child: Column(
@@ -147,17 +145,14 @@ class _DataListState extends State<DataList> {
                           ],
                         ),
                       )
-                : Center(
-                    child: BuildText(text: "No notes yet")
-                  )
+                : Center(child: BuildText(text: "No notes yet"))
             : Center(
                 child: CircularProgressIndicator(),
               ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          bool isItemAdded = await showDialogBox(
-              context, titleController, descriptionController);
+          bool isItemAdded = await showDialogBox(context);
           if (isItemAdded) {
             setState(() {});
           }

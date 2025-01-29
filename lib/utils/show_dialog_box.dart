@@ -1,9 +1,10 @@
 import 'package:authentication/services/database_service.dart';
 import 'package:flutter/material.dart';
 
-Future<bool> showDialogBox(
-    context, titleController, descriptionController) async {
+Future<bool> showDialogBox(context) async {
   bool itemAdded = false;
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
   final DatabaseService databaseService = DatabaseService.instance;
   await showDialog(
     context: context,
