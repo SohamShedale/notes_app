@@ -32,7 +32,7 @@ class DatabaseService {
     return database;
   }
 
-  void addNote({required String title, required String description}) async {
+  Future<void> addNote({required String title, required String description}) async {
     Map<String, dynamic> note = {
       _titleColumn: title,
       _descriptionColumn: description,
