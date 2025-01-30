@@ -10,22 +10,41 @@ class BuildCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Color(color),
-      child: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              item["title"],
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: 300,
+        ),
+        child: ClipRect(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        item["title"],
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    BuildSizebox(height: 10),
+                    Text(
+                      item["description"],
+                      maxLines: 10,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            BuildSizebox(height: 10),
-            Text(item["description"]),
-          ],
+            ],
+          ),
         ),
       ),
     );
