@@ -1,4 +1,4 @@
-import 'package:authentication/pages/data_list.dart';
+import 'package:authentication/pages/notes_page.dart';
 import 'package:authentication/pages/login_page.dart';
 import 'package:authentication/utils/find_user.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class BuildSigninButton extends StatelessWidget {
         if (success) {
           if (context.mounted) {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => DataList()));
+                context, MaterialPageRoute(builder: (context) => NotesPage()));
           }
         } else {
           if (context.mounted) {
