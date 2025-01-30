@@ -22,7 +22,6 @@ class BuildCard extends StatelessWidget {
                 padding: EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisSize: MainAxisSize.min,
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
