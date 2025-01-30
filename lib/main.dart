@@ -1,4 +1,5 @@
-import 'package:authentication/pages/data_list.dart';
+import 'package:authentication/pages/notes_page.dart';
+import 'package:authentication/providers/drawer_provider.dart';
 import 'package:authentication/providers/notes_provider.dart';
 import 'package:authentication/providers/search_notes_provider.dart';
 // import 'package:authentication/pages/signup_page.dart';
@@ -16,13 +17,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context)=>NotesProvider()),
-        ChangeNotifierProvider(create: (context)=>SearchNotesProvider()),
+        ChangeNotifierProvider(create: (context) => NotesProvider()),
+        ChangeNotifierProvider(create: (context) => SearchNotesProvider()),
+        ChangeNotifierProvider(create: (context) => DrawerProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(scaffoldBackgroundColor: Color(0xff202124)),
-        home: DataList(),
+        home: NotesPage(),
         // home: SignupPage(),
       ),
     );
