@@ -23,7 +23,14 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(scaffoldBackgroundColor: Color(0xff202124)),
+        theme: ThemeData(
+          scaffoldBackgroundColor: Color(0xff202124),
+          appBarTheme: AppBarTheme(
+            iconTheme: IconThemeData(
+              color: Colors.white,
+            ),
+          ),
+        ),
         home: NotesPage(),
         // home: SignupPage(),
       ),
