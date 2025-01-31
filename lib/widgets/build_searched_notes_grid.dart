@@ -21,7 +21,8 @@ class BuildSearchedNotesGrid extends StatelessWidget {
             ),
             itemCount: searchNotesProvider.searchedNotes.length,
             itemBuilder: (context, index) {
-              final toDisplayItems = searchNotesProvider.searchedNotes;
+              final toDisplayItems =
+                  searchNotesProvider.searchedNotes.reversed.toList();
               final item = toDisplayItems[index];
               final color = colors[index % colors.length];
               return BuildCard(
