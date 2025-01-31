@@ -57,7 +57,24 @@ class NotesProvider extends ChangeNotifier {
       _error = "Failed to update note $e";
       notifyListeners();
     }
-    
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> archiveNote({
+    required int id,
+  }) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      await _databaseService.archiveNote(id: id);
+      await getNotes();
+      notifyListeners();
+    } catch (e) {
+      _error = 'Failed to archive note $e';
+      notifyListeners();
+    }
     _isLoading = false;
     notifyListeners();
   }
