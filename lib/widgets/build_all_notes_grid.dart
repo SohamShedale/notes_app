@@ -22,11 +22,15 @@ class BuildAllDataGrid extends StatelessWidget {
             itemBuilder: (context, index) {
               final toDisplayItems = notesProvider.notes.reversed.toList();
               final item = toDisplayItems[index];
-              final color = colors[index % colors.length];
-              return BuildCard(
-                item: item,
-                color: color,
-              );
+              if (item['status'] == 'active') {
+                final color = colors[index % colors.length];
+                return BuildCard(
+                  item: item,
+                  color: color,
+                );
+              } else {
+                return SizedBox.shrink();
+              }
             },
           ),
         ),
