@@ -5,7 +5,7 @@ import 'package:authentication/widgets/build_all_notes_grid.dart';
 import 'package:authentication/widgets/build_drawer.dart';
 import 'package:authentication/widgets/build_searched_notes_grid.dart';
 import 'package:authentication/widgets/build_text.dart';
-import 'package:authentication/widgets/build_text_field.dart';
+import 'package:authentication/widgets/build_search_text_field.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -33,7 +33,7 @@ class _NotesPageState extends State<NotesPage> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Color(0xff202124),
-          title: BuildTextField(),
+          title: BuildSearchTextField(),
         ),
         drawer: BuildDrawer(),
         body: SafeArea(
