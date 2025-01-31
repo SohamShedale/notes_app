@@ -8,6 +8,9 @@ class DatabaseService {
   final _idColumn = "id";
   final _titleColumn = "title";
   final _descriptionColumn = "description";
+  final _statusColumn = "status";
+  final _createdAtColumn = "created_at";
+  final _deletedAtColumn = "deleted_at";
 
   DatabaseService._instance();
 
@@ -25,7 +28,7 @@ class DatabaseService {
       version: 1,
       onCreate: (db, version) {
         db.execute('''
-          CREATE TABLE $_tableName ($_idColumn INTEGER PRIMARY KEY AUTOINCREMENT, $_titleColumn TEXT, $_descriptionColumn TEXT);
+          CREATE TABLE $_tableName ($_idColumn INTEGER PRIMARY KEY AUTOINCREMENT, $_titleColumn TEXT, $_descriptionColumn TEXT, $_statusColumn TEXT DEFAULT 'active', $_createdAtColumn DATETIME DEFAULT CURRENT_TIMESTAMP, $_deletedAtColumn DATETIME DEFAULT CURRENT_TIMESTAMP);
         ''');
       },
     );
@@ -58,5 +61,15 @@ class DatabaseService {
       _descriptionColumn: description,
     };
     await db.update(_tableName, note, where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<void> archiveNote({required int id}) async {
+    final db = await database;
+    await db.update(
+      _tableName,
+      {'status': 'archived'},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
 }
