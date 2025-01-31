@@ -72,4 +72,14 @@ class DatabaseService {
       whereArgs: [id],
     );
   }
+
+  Future<void> unArchiveNote({required int id}) async {
+    final db = await database;
+    await db.update(
+      _tableName,
+      {'status': 'active'},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
 }
