@@ -1,7 +1,6 @@
 import 'package:authentication/constants/colors.dart';
 import 'package:authentication/providers/notes_provider.dart';
 import 'package:authentication/widgets/build_card.dart';
-import 'package:authentication/widgets/build_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
@@ -30,9 +29,7 @@ class BuildArchivedNotesGrid extends StatelessWidget {
                   color: color,
                 );
               } else {
-                return Center(
-                  child: BuildText(text: "No archived notes"),
-                );
+                return SizedBox.shrink();
               }
             },
           ),

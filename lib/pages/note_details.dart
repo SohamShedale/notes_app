@@ -39,9 +39,13 @@ class _NoteDetailsState extends State<NoteDetails> {
           actions: [
             IconButton(
               onPressed: () {
-                notesProvider.archiveNote(id: widget.item['id']);
+                (widget.item["status"] == "archived")
+                    ? notesProvider.unArchiveNote(id: widget.item["id"])
+                    : notesProvider.archiveNote(id: widget.item['id']);
               },
-              icon: Icon(Icons.archive_outlined),
+              icon: (widget.item["status"] == "archived")
+                  ? Icon(Icons.unarchive_outlined)
+                  : Icon(Icons.archive_outlined),
             ),
             Padding(
               padding: EdgeInsets.only(

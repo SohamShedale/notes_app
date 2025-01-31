@@ -39,6 +39,8 @@ class _NotesPageState extends State<NotesPage> {
         body: SafeArea(
           child: Consumer<SearchNotesProvider>(
               builder: (context, searchNotesProvider, child) {
+            bool isActiveNotes =
+                notesProvider.notes.any((note) => note["status"] == "active");
             if (notesProvider.isLoading || searchNotesProvider.isLoading) {
               return CircularProgressIndicator();
             } else if (notesProvider.error != null ||
@@ -60,9 +62,7 @@ class _NotesPageState extends State<NotesPage> {
                   ],
                 ),
               );
-            } else if (notesProvider.notes.isEmpty ||
-                (notesProvider.notes
-                    .any((note) => note["status"] != "active"))) {
+            } else if (notesProvider.notes.isEmpty || (!isActiveNotes)) {
               return Center(
                 child: BuildText(text: "No notes yet"),
               );
