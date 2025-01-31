@@ -10,7 +10,7 @@ class BuildAllDataGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final notesProvider = Provider.of<NotesProvider>(context, listen: false);
+    final notesProvider = Provider.of<NotesProvider>(context, listen: false);
     return Column(
       children: [
         Expanded(
@@ -20,7 +20,7 @@ class BuildAllDataGrid extends StatelessWidget {
             ),
             itemCount: notesProvider.notes.length,
             itemBuilder: (context, index) {
-              final toDisplayItems = notesProvider.notes;
+              final toDisplayItems = notesProvider.notes.reversed.toList();
               final item = toDisplayItems[index];
               final color = colors[index % colors.length];
               return BuildCard(
