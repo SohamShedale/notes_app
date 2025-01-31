@@ -32,7 +32,8 @@ class DatabaseService {
     return database;
   }
 
-  Future<void> addNote({required String title, required String description}) async {
+  Future<void> addNote(
+      {required String title, required String description}) async {
     Map<String, dynamic> note = {
       _titleColumn: title,
       _descriptionColumn: description,
@@ -44,5 +45,18 @@ class DatabaseService {
   Future<List<Map<String, dynamic>>> getNotes() async {
     final db = await database;
     return db.query(_tableName);
+  }
+
+  Future<void> editNote({
+    required int id,
+    required String title,
+    required String description,
+  }) async {
+    final db = await database;
+    Map<String, dynamic> note = {
+      _titleColumn: title,
+      _descriptionColumn: description,
+    };
+    await db.update(_tableName, note, where: 'id = ?', whereArgs: [id]);
   }
 }
