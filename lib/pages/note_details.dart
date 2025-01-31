@@ -37,8 +37,11 @@ class _NoteDetailsState extends State<NoteDetails> {
         appBar: AppBar(
           backgroundColor: Color(0xff202124),
           actions: [
-            Icon(
-              Icons.archive_outlined,
+            IconButton(
+              onPressed: () {
+                notesProvider.archiveNote(id: widget.item['id']);
+              },
+              icon: Icon(Icons.archive_outlined),
             ),
             Padding(
               padding: EdgeInsets.only(
