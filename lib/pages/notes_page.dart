@@ -60,7 +60,9 @@ class _NotesPageState extends State<NotesPage> {
                   ],
                 ),
               );
-            } else if (notesProvider.notes.isEmpty) {
+            } else if (notesProvider.notes.isEmpty ||
+                (notesProvider.notes
+                    .any((note) => note["status"] != "active"))) {
               return Center(
                 child: BuildText(text: "No notes yet"),
               );
