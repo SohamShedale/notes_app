@@ -19,7 +19,7 @@ class SearchNotesProvider extends ChangeNotifier {
     _query = value;
     notifyListeners();
     try {
-      List<Map<String, dynamic>> data = context.watch<NotesProvider>().notes;
+      List<Map<String, dynamic>> data = context.read<NotesProvider>().notes;
       _searchedNotes = await searchCards(data, value);
     } catch (e) {
       _error = "Failed to search note $e";
