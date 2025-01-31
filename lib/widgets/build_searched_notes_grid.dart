@@ -24,11 +24,15 @@ class BuildSearchedNotesGrid extends StatelessWidget {
               final toDisplayItems =
                   searchNotesProvider.searchedNotes.reversed.toList();
               final item = toDisplayItems[index];
-              final color = colors[index % colors.length];
-              return BuildCard(
-                item: item,
-                color: color,
-              );
+              if (item["status"] != 'deleted') {
+                final color = colors[index % colors.length];
+                return BuildCard(
+                  item: item,
+                  color: color,
+                );
+              } else {
+                return SizedBox.shrink();
+              }
             },
           ),
         ),
