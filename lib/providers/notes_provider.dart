@@ -36,4 +36,29 @@ class NotesProvider extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
+
+  Future<void> editNote({
+    required int id,
+    required String title,
+    required String description,
+  }) async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      await _databaseService.editNote(
+        id: id,
+        title: title,
+        description: description,
+      );
+      await getNotes();
+      notifyListeners();
+    } catch (e) {
+      _error = "Failed to update note $e";
+      notifyListeners();
+    }
+    
+    _isLoading = false;
+    notifyListeners();
+  }
 }
