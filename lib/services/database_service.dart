@@ -28,7 +28,7 @@ class DatabaseService {
       version: 1,
       onCreate: (db, version) {
         db.execute('''
-          CREATE TABLE $_tableName ($_idColumn INTEGER PRIMARY KEY AUTOINCREMENT, $_titleColumn TEXT, $_descriptionColumn TEXT, $_statusColumn TEXT DEFAULT 'active', $_createdAtColumn DATETIME DEFAULT CURRENT_TIMESTAMP, $_deletedAtColumn DATETIME DEFAULT CURRENT_TIMESTAMP);
+          CREATE TABLE $_tableName ($_idColumn INTEGER PRIMARY KEY AUTOINCREMENT, $_titleColumn TEXT, $_descriptionColumn TEXT, $_statusColumn TEXT DEFAULT 'active', $_createdAtColumn TEXT, $_deletedAtColumn TEXT DEFAULT '0');
         ''');
       },
     );
@@ -40,6 +40,7 @@ class DatabaseService {
     Map<String, dynamic> note = {
       _titleColumn: title,
       _descriptionColumn: description,
+      _createdAtColumn: (DateTime.now()).toString(),
     };
     final db = await database;
     await db.insert(_tableName, note);
@@ -48,6 +49,13 @@ class DatabaseService {
   Future<List<Map<String, dynamic>>> getNotes() async {
     final db = await database;
     return db.query(_tableName);
+  }
+
+  Future<Map<String, dynamic>> getNoteById({required int id}) async {
+    final db = await database;
+    List<Map<String, dynamic>> result =
+        await db.query(_tableName, where: "id = ?", whereArgs: [id], limit: 1);
+    return result.first;
   }
 
   Future<void> editNote({
@@ -79,6 +87,28 @@ class DatabaseService {
       _tableName,
       {'status': 'active'},
       where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  Future<void> deleteNote({required int id}) async {
+    final db = await database;
+    await db.update(
+      _tableName,
+      {
+        "status": "deleted",
+        "deleted_at": DateTime.now().toString(),
+      },
+      where: "id = ?",
+      whereArgs: [id],
+    );
+  }
+
+  Future<void> permanentDeleteNote({required int id}) async {
+    final db = await database;
+    await db.delete(
+      _tableName,
+      where: "id = ?",
       whereArgs: [id],
     );
   }

@@ -42,7 +42,9 @@ class _NotesPageState extends State<NotesPage> {
             bool isActiveNotes =
                 notesProvider.notes.any((note) => note["status"] == "active");
             if (notesProvider.isLoading || searchNotesProvider.isLoading) {
-              return CircularProgressIndicator();
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             } else if (notesProvider.error != null ||
                 searchNotesProvider.error != null) {
               return Center(
