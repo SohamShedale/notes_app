@@ -15,6 +15,7 @@ class _NoteDetailsState extends State<NoteDetails> {
   final TextEditingController _descriptionController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   late String daysRemaining;
+  bool isDeleted = false;
 
   @override
   void initState() {
@@ -26,6 +27,7 @@ class _NoteDetailsState extends State<NoteDetails> {
         Provider.of<NotesProvider>(context, listen: false)
             .calculateDays(id: widget.item["id"]);
       });
+      isDeleted = true;
     }
   }
 
@@ -81,6 +83,15 @@ class _NoteDetailsState extends State<NoteDetails> {
                       style: TextStyle(color: Colors.grey, fontSize: 13),
                     ),
                   TextField(
+                    enabled: !isDeleted,
+                    onEditingComplete: () {
+                      _focusNode.unfocus();
+                      notesProvider.editNote(
+                        id: widget.item["id"],
+                        title: _titleController.text,
+                        description: _descriptionController.text,
+                      );
+                    },
                     controller: _titleController,
                     style: TextStyle(
                       color: Colors.white,
@@ -95,6 +106,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                   ),
                   SizedBox(
                     child: TextField(
+                      enabled: !isDeleted,
                       onEditingComplete: () {
                         _focusNode.unfocus();
                         notesProvider.editNote(
