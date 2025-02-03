@@ -8,8 +8,7 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final notesProvider = NotesProvider();
-  await notesProvider.deleteTrashNote();
+  await NotesProvider().deleteTrashNote();
   runApp(MyApp());
 }
 
