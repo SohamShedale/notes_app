@@ -77,7 +77,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                 children: [
                   if (widget.item["status"] == "deleted")
                     Text(
-                      "After ${(notesProvider.days).toString()} days note will get permanently deleted.",
+                      "After ${(int.parse("7") - notesProvider.days).toString()} days note will get permanently deleted.",
                       style: TextStyle(color: Colors.grey, fontSize: 13),
                     ),
                   TextField(
