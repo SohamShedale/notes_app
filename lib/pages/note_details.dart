@@ -13,7 +13,8 @@ class NoteDetails extends StatefulWidget {
 class _NoteDetailsState extends State<NoteDetails> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode1 = FocusNode();
+  final FocusNode _focusNode2 = FocusNode();
   late String daysRemaining;
   bool isDeleted = false;
 
@@ -35,7 +36,8 @@ class _NoteDetailsState extends State<NoteDetails> {
   void dispose() {
     _titleController.dispose();
     _descriptionController.dispose();
-    _focusNode.dispose();
+    _focusNode1.dispose();
+    _focusNode2.dispose();
     super.dispose();
   }
 
@@ -85,7 +87,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                   TextField(
                     enabled: !isDeleted,
                     onEditingComplete: () {
-                      _focusNode.unfocus();
+                      _focusNode1.unfocus();
                       notesProvider.editNote(
                         id: widget.item["id"],
                         title: _titleController.text,
@@ -93,6 +95,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                       );
                     },
                     controller: _titleController,
+                    focusNode: _focusNode1,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 25,
@@ -108,7 +111,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                     child: TextField(
                       enabled: !isDeleted,
                       onEditingComplete: () {
-                        _focusNode.unfocus();
+                        _focusNode2.unfocus();
                         notesProvider.editNote(
                           id: widget.item["id"],
                           title: _titleController.text,
@@ -116,7 +119,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                         );
                       },
                       controller: _descriptionController,
-                      focusNode: _focusNode,
+                      focusNode: _focusNode2,
                       maxLines: null,
                       textInputAction: TextInputAction.done,
                       style: TextStyle(
